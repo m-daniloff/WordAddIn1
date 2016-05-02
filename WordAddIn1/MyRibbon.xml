@@ -12,6 +12,9 @@
           <button id="tableButton" label="Insert Table" getImage="OnGetImage"
                screentip="Table" onAction="OnRibbonButton"
                supertip="Inserts a table at the cursor location."/>
+          <separator id="Sep1"/>
+          <button id="normalMerge" label="Combine section (2nd pref)" imageMso="_2" onAction="MergeSecondPref"/>
+          <button id="normalMerge2" label="Combine section (1st pref)" imageMso="_1" onAction="MergeFirstPref"/>
         </group>
       </tab>
      

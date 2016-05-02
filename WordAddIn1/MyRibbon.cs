@@ -177,6 +177,17 @@ namespace WordAddIn1
             System.Windows.Forms.MessageBox.Show("Core Create button is clicked " + ctrl.Id);
         }
 
+        public void MergeSecondPref(Office.IRibbonControl ctl)
+        {
+            Globals.ThisAddIn.CombineSections();
+        }
+
+        public void MergeFirstPref(Office.IRibbonControl ctl)
+        {
+            Globals.ThisAddIn.CombineSectionsEx();
+            System.Windows.Forms.MessageBox.Show("Merging 1");
+        }
+
         #endregion
     }
 }

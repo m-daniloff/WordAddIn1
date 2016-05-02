@@ -45,5 +45,57 @@ namespace WordAddIn1
             _myRibbon = new MyRibbon();
             return _myRibbon;
         }
+
+
+        //Sections logic
+        internal void CombineSections()
+        {
+            Word.Document doc = Application.ActiveDocument;
+            Word.Section targetSection = doc.Sections.Cast<Word.Section>().FirstOrDefault(section => section.Index == 1);
+
+            if (null == targetSection)
+                return;
+         
+            targetSection.Range.Select();
+            Word.Selection selection = doc.Application.Selection;
+            object unit = Word.WdUnits.wdCharacter;
+            object count = 1;
+            object extend = Word.WdMovementType.wdExtend;
+            selection.MoveRight(ref unit, ref count, Type.Missing);
+            selection.MoveLeft(ref unit, ref count, ref extend);
+            selection.Delete(ref unit, ref count);
+
+           
+        }
+
+        internal void CombineSectionsEx()
+        {
+            Word.Document doc = Application.ActiveDocument;
+            Word.Section targetSection = doc.Sections.Cast<Word.Section>().FirstOrDefault(section => section.Index == 2);
+
+            if (null == targetSection)
+                return;
+            
+            targetSection.Range.Select();
+            Word.Selection selection = doc.Application.Selection;
+            object unit = Word.WdUnits.wdCharacter;
+            object count = 1;
+            object extend = Word.WdMovementType.wdExtend;
+            selection.MoveRight(ref unit, ref count, Type.Missing);
+            selection.MoveLeft(ref unit, ref count, ref extend);
+            selection.Cut();
+
+            targetSection = doc.Sections.Cast<Word.Section>().FirstOrDefault(section => section.Index == 2);
+
+            if (null == targetSection)
+                return;
+
+            targetSection.Range.Select();
+            selection = doc.Application.Selection;
+            selection.MoveRight(ref unit, ref count, Type.Missing);
+            selection.MoveLeft(ref unit, ref count, ref extend);
+            selection.Paste();
+        }
+       
     }
 }
