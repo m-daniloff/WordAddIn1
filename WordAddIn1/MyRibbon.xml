@@ -1,0 +1,21 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<customUI xmlns="http://schemas.microsoft.com/office/2009/07/customui"
+          xmlns:esq="http://esqinc.com/V5/ui"
+          onLoad="Ribbon_Load">
+  <ribbon>
+    <tabs>
+      <tab idQ="esq:MyOwnTab" label="MyCustom" insertAfterMso="TabHome">
+        <group id="ContentGroup" label="Content">
+          <button id="textButton" label="Insert Text" getImage="OnGetImage"
+               screentip="Text" onAction="OnRibbonButton"
+               supertip="Inserts text at the cursor location."/>
+          <button id="tableButton" label="Insert Table" getImage="OnGetImage"
+               screentip="Table" onAction="OnRibbonButton"
+               supertip="Inserts a table at the cursor location."/>
+        </group>
+      </tab>
+     
+    </tabs>
+  </ribbon>
+</customUI>
+
