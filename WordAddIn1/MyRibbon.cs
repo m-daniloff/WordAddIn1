@@ -185,7 +185,6 @@ namespace WordAddIn1
         public void MergeFirstPref(Office.IRibbonControl ctl)
         {
             Globals.ThisAddIn.CombineSectionsEx();
-            System.Windows.Forms.MessageBox.Show("Merging 1");
         }
 
         #endregion
