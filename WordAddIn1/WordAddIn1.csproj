@@ -158,6 +158,8 @@
     <Reference Include="Office, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
     <Reference Include="stdole, Version=7.0.3300.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -165,11 +167,15 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
+    <Reference Include="UIAutomationProvider" />
+    <Reference Include="WindowsBase" />
+    <Reference Include="WindowsFormsIntegration" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Microsoft.Office.Tools.v4.0.Framework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
@@ -205,6 +211,9 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <EmbeddedResource Include="TaskPaneWpfControlHost.resx">
+      <DependentUpon>TaskPaneWpfControlHost.cs</DependentUpon>
+    </EmbeddedResource>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -216,6 +225,16 @@
     </Compile>
     <Compile Include="ResourceAccess.cs" />
     <Compile Include="SectionHelpers.cs" />
+    <Compile Include="ViewModels\CombineSectionsViewModel.cs" />
+    <Compile Include="Views\CombineSectionsControl.xaml.cs">
+      <DependentUpon>CombineSectionsControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TaskPaneWpfControlHost.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskPaneWpfControlHost.Designer.cs">
+      <DependentUpon>TaskPaneWpfControlHost.cs</DependentUpon>
+    </Compile>
     <Compile Include="ThisAddIn.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -246,7 +265,18 @@
       <Project>{2aa7f2de-9ca0-418e-b4e0-357ebb57f125}</Project>
       <Name>ClientCustomization</Name>
     </ProjectReference>
+    <ProjectReference Include="..\Esquire.Common\Esquire.Common.csproj">
+      <Project>{eb95da68-3634-48b5-9833-6fbdd1ac6ed6}</Project>
+      <Name>Esquire.Common</Name>
+    </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <Page Include="Views\CombineSectionsControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+  </ItemGroup>
+  <ItemGroup />
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
     <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>

@@ -15,6 +15,7 @@
           <separator id="Sep1"/>
           <button id="normalMerge" label="Combine section (2nd pref)" imageMso="_2" onAction="MergeSecondPref"/>
           <button id="normalMerge2" label="Combine section (1st pref)" imageMso="_1" onAction="MergeFirstPref"/>
+          <button id="sectionTools" label="Section Tools" imageMso="_9" onAction="ShowSectionTools" getEnabled="RibbonButtonEnabled"/>
         </group>
       </tab>
      

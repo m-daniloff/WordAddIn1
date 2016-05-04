@@ -187,6 +187,26 @@ namespace WordAddIn1
             Globals.ThisAddIn.CombineSectionsEx();
         }
 
+        public void ShowSectionTools(Office.IRibbonControl ctl)
+        {
+            Globals.ThisAddIn.ShowSectionsTaskPane();
+        }
+
+        public bool RibbonButtonEnabled(Office.IRibbonControl ctl)
+        {
+            if (Globals.ThisAddIn.Application.Documents.Count > 0)
+                return true;
+            else
+            {
+                return false;
+            }
+        }
+
         #endregion
+
+        public void Invalidate()
+        {
+            ribbon.Invalidate();
+        }
     }
 }
