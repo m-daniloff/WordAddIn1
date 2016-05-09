@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
+using Esquire.Common.Commanding;
 using Esquire.Common.ViewModels;
 using Microsoft.Office.Tools.Word;
 using Word = Microsoft.Office.Interop.Word;
@@ -13,7 +16,13 @@ namespace WordAddIn1.ViewModels
     public class CombineSectionsViewModel : ViewModelBase
     {
         private Word.Document _document;
+        private Document _vstoDocument;
 
+        public CombineSectionsViewModel()
+        {
+            PreviousSectionSelected = false;
+            UseCurrentSelected = true;
+        }
         public Word.Document AssociatedDocument
         {
             get
@@ -22,13 +31,91 @@ namespace WordAddIn1.ViewModels
             }
             set
             {
-                //if (_document != null && value != _document)
-                //{
+                if (value != _document)
+                {
                     _document = value;
                     OnPropertyChanged("AssociatedDocument");
                     // wrong, revise
                     Init();
-                //}
+                }
+            }
+        }
+
+        private int CurrentSectionIndex { get; set; }
+
+        private bool _previousSectionSelected;
+        public bool PreviousSectionSelected
+        {
+            get
+            {
+                return _previousSectionSelected;
+            }
+
+            set
+            {
+                _previousSectionSelected = value;
+                OnPropertyChanged("PreviousSectionSelected");
+            }
+        }
+
+        private bool _nextSectionSelected;
+        public bool NextSectionSelected
+        {
+            get
+            {
+                return _nextSectionSelected;
+            }
+
+            set
+            {
+                _nextSectionSelected = value;
+                OnPropertyChanged("NextSectionSelected");
+            }
+        }
+
+        private bool _previousSectionButtonEnabled;
+
+        public bool PreviousSectionEnabled
+        {
+            get {  return _previousSectionButtonEnabled; }
+            set
+            {
+                _previousSectionButtonEnabled = value;
+                OnPropertyChanged("PreviousSectionEnabled");
+                if (!_previousSectionButtonEnabled)
+                {
+                    PreviousSectionSelected = false;
+                    NextSectionSelected = true;
+                }
+            }
+        }
+
+        private bool _nextSectionButtonEnabled;
+
+        public bool NextSectionEnabled
+        {
+            get { return _nextSectionButtonEnabled; }
+            set
+            {
+                _nextSectionButtonEnabled = value;
+                OnPropertyChanged("NextSectionEnabled");
+                if (!_nextSectionButtonEnabled)
+                {
+                    PreviousSectionSelected = true;
+                    NextSectionSelected = false;
+                }
+            }
+        }
+
+        private bool _useCurrentSelected;
+
+        public bool UseCurrentSelected
+        {
+            get {  return _useCurrentSelected;}
+            set
+            {
+                _useCurrentSelected = value;
+                OnPropertyChanged("UseCurrentSelected");
             }
         }
 
@@ -45,13 +132,102 @@ namespace WordAddIn1.ViewModels
 
         private void Init()
         {
-            Document vstoDoc = Globals.Factory.GetVstoObject(AssociatedDocument);
-            vstoDoc.SelectionChange += new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
+            _vstoDocument = Globals.Factory.GetVstoObject(AssociatedDocument);
+            _vstoDocument.SelectionChange += new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
         }
 
         private void ThisDocument_SelectionChange(object sender, SelectionEventArgs e)
         {
-            TempIndicator = DateTime.Now.ToLongTimeString();
+            object temp = AssociatedDocument.ActiveWindow.Selection.Information[Word.WdInformation.wdActiveEndSectionNumber];
+            CurrentSectionIndex = Convert.ToInt32(temp);
+
+            int totalSections = AssociatedDocument.Sections.Count;
+
+            PreviousSectionEnabled = (CurrentSectionIndex != 1);
+            NextSectionEnabled = (CurrentSectionIndex != totalSections);
+
+            TempIndicator = CurrentSectionIndex.ToString(); //DateTime.Now.ToLongTimeString();
         }
+
+        #region Commands
+
+        private RelayCommand _applyCommand;
+
+        public ICommand ApplyCommand
+        {
+            get
+            {
+                if (_applyCommand == null)
+                {
+                    _applyCommand = new RelayCommand(
+                        param => CombineSections(), 
+                        param => CanCombineSections);       
+                }
+                return _applyCommand;
+            }
+        }
+
+        private bool CanCombineSections
+        {
+            get
+            {
+                // return AssociatedDocument?.Sections.Count > 1;
+                if (null == AssociatedDocument)
+                    return false;
+
+                return AssociatedDocument.Sections.Count > 1;
+            }
+        }
+            
+            
+
+        private void CombineSections()
+        {
+            if (PreviousSectionSelected)
+            {
+                if (UseCurrentSelected)
+                    SectionHelpers.CombineSectionsComplex(GetCurrentSectionNumber(), AssociatedDocument);
+                else
+                {
+                    SectionHelpers.CombineSectionsSimple(GetCurrentSectionNumber(), AssociatedDocument);
+                }
+                //System.Windows.Forms.MessageBox.Show("Previous");
+            }
+
+            else
+            {
+                if (UseCurrentSelected)
+                    SectionHelpers.CombineSectionsComplex(CurrentSectionIndex, AssociatedDocument);
+                else
+                {
+                    SectionHelpers.CombineSectionsSimple(CurrentSectionIndex, AssociatedDocument);
+                }
+            }
+            _vstoDocument.SelectionChange -= new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
+            Close();
+        }
+
+        private int GetCurrentSectionNumber()
+        {
+            if (CurrentSectionIndex > 1)
+                CurrentSectionIndex = CurrentSectionIndex - 1;
+
+            return CurrentSectionIndex;
+        }
+
+        public event EventHandler CloseWindow;
+
+        private void Close()
+        {
+            EventHandler handler = CloseWindow;
+            if (handler != null)
+            {
+                var e = EventArgs.Empty;
+                handler(this, e);
+            }
+        }
+
+        #endregion
+
     }
 }

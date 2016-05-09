@@ -60,11 +60,19 @@ namespace WordAddIn1
         //Sections logic
         internal void CombineSections()
         {
+            int count = Application.ActiveDocument.Sections.Count;
+            Word.Section s1 = Application.ActiveDocument.Sections[1];
+            Word.Section s2 = Application.ActiveDocument.Sections[2];
+
             SectionHelpers.CombineSectionsSimple(1, Application.ActiveDocument);
         }
 
         internal void CombineSectionsEx()
         {
+            int count = Application.ActiveDocument.Sections.Count;
+            Word.Section s1 = Application.ActiveDocument.Sections[0];
+            Word.Section s2 = Application.ActiveDocument.Sections[1];
+
             SectionHelpers.CombineSectionsComplex(1, Application.ActiveDocument);
         }
 
@@ -90,6 +98,16 @@ namespace WordAddIn1
             wpfHost.WpfElementHost.HostContainer.Children.Add(wpfControl);
             _taskPane = this.CustomTaskPanes.Add(wpfHost, "Sections Task Pane");
             _taskPane.Visible = false;
+
+           vm.CloseWindow += VmOnCloseWindow;
+        }
+
+        private void VmOnCloseWindow(object sender, EventArgs eventArgs)
+        {
+            this.CustomTaskPanes.Remove(_taskPane);
+            _taskPane = null;
+            // we might've turned the document into a single section document
+            _myRibbon.Invalidate();
         }
     }
 }

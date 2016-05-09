@@ -54,7 +54,7 @@ namespace WordAddIn1
             {
                 return ResourceAccess.GetBitmap(control.Id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //_logger.Error(CommonResource.Error_Icon_Not_Found, e);
             }
@@ -76,7 +76,7 @@ namespace WordAddIn1
             {
                 return ResourceAccess.GetExternalBitmap(control.Id);
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //_logger.Error(CommonResource.Error_Icon_Not_Found, e);
             }
@@ -195,7 +195,14 @@ namespace WordAddIn1
         public bool RibbonButtonEnabled(Office.IRibbonControl ctl)
         {
             if (Globals.ThisAddIn.Application.Documents.Count > 0)
-                return true;
+            { 
+                if (Globals.ThisAddIn.Application.ActiveDocument.Sections.Count > 1)
+                    return true;
+                else
+                {
+                    return false;
+                }
+            }
             else
             {
                 return false;

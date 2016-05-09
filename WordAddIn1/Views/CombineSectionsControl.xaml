@@ -6,7 +6,67 @@
              xmlns:local="clr-namespace:WordAddIn1"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
-    <Grid Height="300" Width="300" Background="White">
-        <TextBlock  FontSize="42" Text="{Binding TempIndicator}" Foreground="LightBlue"/>
+   
+    <Grid Height="400" Width="300" Background="White">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="8*" />
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+
+        <GroupBox Grid.Row="0" Grid.Column="1">
+            <GroupBox.Header>
+                <Label Content="Combine current section with"></Label>
+            </GroupBox.Header>
+            <StackPanel Orientation="Vertical">
+                <RadioButton Content="_Previous Section" GroupName="sectionIndex" 
+                             IsChecked="{Binding PreviousSectionSelected}"
+                             IsEnabled="{Binding PreviousSectionEnabled}"></RadioButton>
+                <RadioButton Content="Ne_xt Section" GroupName="sectionIndex"
+                             IsChecked="{Binding NextSectionSelected}"
+                             IsEnabled="{Binding NextSectionEnabled}"></RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="1" Grid.Column="1">
+            <GroupBox.Header>
+                <Label Content="Header"></Label>
+            </GroupBox.Header>
+            <StackPanel Orientation="Vertical">
+                <RadioButton Content="Use _current section" GroupName="sectionHeader"></RadioButton>
+                <RadioButton Content="Use previous section" GroupName="sectionHeader"></RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="2" Grid.Column="1">
+            <GroupBox.Header>
+                <Label Content="Footer"></Label>
+            </GroupBox.Header>
+            <StackPanel Orientation="Vertical">
+                <RadioButton Content="Use cu_rrent section" GroupName="sectionFooter"></RadioButton>
+                <RadioButton Content="U_se previous section" GroupName="sectionFooter"></RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <GroupBox Grid.Row="3" Grid.Column="1">
+            <GroupBox.Header>
+                <Label Content="Margins/Page Orientation"></Label>
+            </GroupBox.Header>
+            <StackPanel Orientation="Vertical">
+                <RadioButton Content="_Use current section" GroupName="sectionPage"
+                             IsChecked="{Binding UseCurrentSelected}"></RadioButton>
+                <RadioButton Content="Use previous sec_tion" GroupName="sectionPage"></RadioButton>
+            </StackPanel>
+        </GroupBox>
+        <StackPanel Grid.Row="4" Grid.Column="1" Orientation="Horizontal" Margin="10, 10, 10, 10">
+            <Button Content="_Apply" IsDefault="True" Command="{Binding Path= ApplyCommand}" Width="120"></Button>
+            <Button Content="Cancel" IsCancel="True" Width="120"></Button>
+        </StackPanel>
+        <!--<TextBlock  FontSize="42" Text="{Binding TempIndicator}" Foreground="LightBlue"/>-->
+        
     </Grid>
 </UserControl>

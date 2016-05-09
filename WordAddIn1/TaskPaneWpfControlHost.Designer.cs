@@ -35,7 +35,7 @@
             // 
             this.wpfElementHost.Location = new System.Drawing.Point(0, 0);
             this.wpfElementHost.Name = "wpfElementHost";
-            this.wpfElementHost.Size = new System.Drawing.Size(200, 100);
+            this.wpfElementHost.Size = new System.Drawing.Size(300, 400);
             this.wpfElementHost.TabIndex = 0;
             this.wpfElementHost.Text = "elementHost1";
             this.wpfElementHost.Child = null;
@@ -46,6 +46,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.Controls.Add(this.wpfElementHost);
             this.Name = "TaskPaneWpfControlHost";
+            this.Size = new System.Drawing.Size(300, 400);
             this.ResumeLayout(false);
 
         }
