@@ -13,16 +13,38 @@ namespace WordAddIn1
         /// The section formatting of the second section takes precedence
         /// </summary>
         /// <param name="sectionIndex"></param>
-        /// <param name="doument"></param>
-        public static void CombineSectionsSimple(int sectionIndex, Word.Document doument)
+        /// <param name="document"></param>
+        /// <param name="useCurrentSectionHeader"></param>
+        /// <param name="useCurrentSectionFooter"></param>
+        /// 
+        public static void CombineSectionsSimple(int sectionIndex,
+            bool useCurrentSectionHeader,
+            bool useCurrentSectionFooter,
+            Word.Document document)
         {
-            Word.Section targetSection = doument.Sections.Cast<Word.Section>().FirstOrDefault(section => section.Index == sectionIndex);
+            Word.Section targetSection = document.Sections.Cast<Word.Section>().FirstOrDefault(section => section.Index == sectionIndex);
 
             if (null == targetSection)
                 return;
 
+            // investigating
+            Word.Section nextSection = document.Sections[sectionIndex + 1];
+            if (useCurrentSectionHeader)
+            {
+                nextSection.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterFirstPage].LinkToPrevious = true;
+                nextSection.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterEvenPages].LinkToPrevious = true;
+                nextSection.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary].LinkToPrevious = true;
+            }
+
+            if (useCurrentSectionFooter)
+            {
+                nextSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterFirstPage].LinkToPrevious = true;
+                nextSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterEvenPages].LinkToPrevious = true;
+                nextSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary].LinkToPrevious = true;
+            }
+            
             targetSection.Range.Select();
-            Word.Selection selection = doument.Application.Selection;
+            Word.Selection selection = document.Application.Selection;
             object unit = Word.WdUnits.wdCharacter;
             object count = 1;
             object extend = Word.WdMovementType.wdExtend;
@@ -36,7 +58,13 @@ namespace WordAddIn1
         /// </summary>
         /// <param name="sectionIndex"></param>
         /// <param name="document"></param>
-        public static void CombineSectionsComplex(int sectionIndex, Word.Document document)
+        /// <param name="useCurrentSectionHeader"></param>
+        /// <param name="useCurrentSectionFooter"></param>
+        /// 
+        public static void CombineSectionsComplex(int sectionIndex,
+            bool useCurrentSectionHeader,
+            bool useCurrentSectionFooter,
+            Word.Document document)
         {
             if (document.Sections.Count == 2)
             {
@@ -47,7 +75,20 @@ namespace WordAddIn1
 
             if (null == targetSection)
                 return;
+            Word.Section nextSection = document.Sections[sectionIndex + 1];
+            if (useCurrentSectionHeader)
+            {
+                nextSection.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterFirstPage].LinkToPrevious = true;
+                nextSection.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterEvenPages].LinkToPrevious = true;
+                nextSection.Headers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary].LinkToPrevious = true;
+            }
 
+            if (useCurrentSectionFooter)
+            {
+                nextSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterFirstPage].LinkToPrevious = true;
+                nextSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterEvenPages].LinkToPrevious = true;
+                nextSection.Footers[Word.WdHeaderFooterIndex.wdHeaderFooterPrimary].LinkToPrevious = true;
+            }
             targetSection.Range.Select();
             Word.Selection selection = document.Application.Selection;
             object unit = Word.WdUnits.wdCharacter;

@@ -64,7 +64,7 @@ namespace WordAddIn1
             Word.Section s1 = Application.ActiveDocument.Sections[1];
             Word.Section s2 = Application.ActiveDocument.Sections[2];
 
-            SectionHelpers.CombineSectionsSimple(1, Application.ActiveDocument);
+            //SectionHelpers.CombineSectionsSimple(1, Application.ActiveDocument);
         }
 
         internal void CombineSectionsEx()
@@ -73,7 +73,7 @@ namespace WordAddIn1
             Word.Section s1 = Application.ActiveDocument.Sections[0];
             Word.Section s2 = Application.ActiveDocument.Sections[1];
 
-            SectionHelpers.CombineSectionsComplex(1, Application.ActiveDocument);
+            //SectionHelpers.CombineSectionsComplex(1, Application.ActiveDocument);
         }
 
         public void ShowSectionsTaskPane()
@@ -108,6 +108,15 @@ namespace WordAddIn1
             _taskPane = null;
             // we might've turned the document into a single section document
             _myRibbon.Invalidate();
+        }
+
+        public void DeleteCurrentSection()
+        {
+            object temp = Application.ActiveWindow.Selection.Information[Word.WdInformation.wdActiveEndSectionNumber];
+            int selectionIndex = Convert.ToInt32(temp);
+
+            SectionHelpers.DeleteSection(selectionIndex, Application.ActiveDocument);
+
         }
     }
 }

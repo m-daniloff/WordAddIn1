@@ -22,6 +22,9 @@ namespace WordAddIn1.ViewModels
         {
             PreviousSectionSelected = false;
             UseCurrentSelected = true;
+
+            UseCurrentSectionFooter = true;
+            UseCurrentSectionHeader = true;
         }
         public Word.Document AssociatedDocument
         {
@@ -119,6 +122,30 @@ namespace WordAddIn1.ViewModels
             }
         }
 
+        private bool _useCurrentSectionFooter;
+
+        public bool UseCurrentSectionFooter
+        {
+            get { return _useCurrentSectionFooter; }
+            set
+            {
+                _useCurrentSectionFooter = value;
+                OnPropertyChanged("UseCurrentSectionFooter");
+            }
+        }
+
+        private bool _useCurrentSectionHeader;
+
+        public bool UseCurrentSectionHeader
+        {
+            get {  return _useCurrentSectionHeader;}
+            set
+            {
+                _useCurrentSectionHeader = value;
+                OnPropertyChanged("UseCurrentSectionHeader");
+            }
+        }
+
         private string _tempIndicator;
         public string TempIndicator
         {
@@ -186,21 +213,32 @@ namespace WordAddIn1.ViewModels
             if (PreviousSectionSelected)
             {
                 if (UseCurrentSelected)
-                    SectionHelpers.CombineSectionsComplex(GetCurrentSectionNumber(), AssociatedDocument);
+                    SectionHelpers.CombineSectionsComplex(GetCurrentSectionNumber(),
+                        UseCurrentSectionHeader,
+                        UseCurrentSectionFooter, 
+                        AssociatedDocument);
                 else
                 {
-                    SectionHelpers.CombineSectionsSimple(GetCurrentSectionNumber(), AssociatedDocument);
+                    SectionHelpers.CombineSectionsSimple(GetCurrentSectionNumber(), 
+                        UseCurrentSectionHeader,
+                        UseCurrentSectionFooter,
+                        AssociatedDocument);
                 }
-                //System.Windows.Forms.MessageBox.Show("Previous");
             }
 
             else
             {
                 if (UseCurrentSelected)
-                    SectionHelpers.CombineSectionsComplex(CurrentSectionIndex, AssociatedDocument);
+                    SectionHelpers.CombineSectionsComplex(CurrentSectionIndex,
+                        UseCurrentSectionHeader,
+                        UseCurrentSectionFooter,
+                        AssociatedDocument);
                 else
                 {
-                    SectionHelpers.CombineSectionsSimple(CurrentSectionIndex, AssociatedDocument);
+                    SectionHelpers.CombineSectionsSimple(CurrentSectionIndex,
+                        UseCurrentSectionHeader,
+                        UseCurrentSectionFooter,
+                        AssociatedDocument);
                 }
             }
             _vstoDocument.SelectionChange -= new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);

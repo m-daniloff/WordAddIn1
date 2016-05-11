@@ -39,7 +39,8 @@
                 <Label Content="Header"></Label>
             </GroupBox.Header>
             <StackPanel Orientation="Vertical">
-                <RadioButton Content="Use _current section" GroupName="sectionHeader"></RadioButton>
+                <RadioButton Content="Use _current section" GroupName="sectionHeader"
+                             IsChecked="{Binding UseCurrentSectionHeader}"></RadioButton>
                 <RadioButton Content="Use previous section" GroupName="sectionHeader"></RadioButton>
             </StackPanel>
         </GroupBox>
@@ -48,7 +49,8 @@
                 <Label Content="Footer"></Label>
             </GroupBox.Header>
             <StackPanel Orientation="Vertical">
-                <RadioButton Content="Use cu_rrent section" GroupName="sectionFooter"></RadioButton>
+                <RadioButton Content="Use cu_rrent section" GroupName="sectionFooter"
+                             IsChecked="{Binding UseCurrentSectionFooter}"></RadioButton>
                 <RadioButton Content="U_se previous section" GroupName="sectionFooter"></RadioButton>
             </StackPanel>
         </GroupBox>

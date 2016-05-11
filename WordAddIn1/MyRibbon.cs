@@ -176,20 +176,15 @@ namespace WordAddIn1
         {
             System.Windows.Forms.MessageBox.Show("Core Create button is clicked " + ctrl.Id);
         }
-
-        public void MergeSecondPref(Office.IRibbonControl ctl)
-        {
-            Globals.ThisAddIn.CombineSections();
-        }
-
-        public void MergeFirstPref(Office.IRibbonControl ctl)
-        {
-            Globals.ThisAddIn.CombineSectionsEx();
-        }
-
+        
         public void ShowSectionTools(Office.IRibbonControl ctl)
         {
             Globals.ThisAddIn.ShowSectionsTaskPane();
+        }
+
+        public void DeleteSection(Office.IRibbonControl ctl)
+        {
+            Globals.ThisAddIn.DeleteCurrentSection();
         }
 
         public bool RibbonButtonEnabled(Office.IRibbonControl ctl)
