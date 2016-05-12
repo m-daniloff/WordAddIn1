@@ -165,5 +165,16 @@ namespace WordAddIn1
             var selection = document.Application.Selection;
             selection.Delete();
         }
+
+        public static void RelocateSectionToTheFront(int sectionIndex, Word.Document document)
+        {
+            var section = document.Sections[sectionIndex];
+            section.Range.Select();
+            var selection = document.Application.Selection;
+            selection.Cut();
+            object unit = Word.WdUnits.wdStory;
+            selection.HomeKey(Unit: unit);
+            selection.Paste();
+        }
     }
 }

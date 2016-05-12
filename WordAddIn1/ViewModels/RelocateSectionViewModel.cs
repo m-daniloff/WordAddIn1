@@ -102,7 +102,9 @@ namespace WordAddIn1.ViewModels
         }
         private void RelocateSection()
         {
-            
+            SectionHelpers.RelocateSectionToTheFront(CurrentSectionIndex, AssociatedDocument);
+            _vstoDocument.SelectionChange -= new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
+            Close();
         }
         private bool CanRelocateSections
         {
