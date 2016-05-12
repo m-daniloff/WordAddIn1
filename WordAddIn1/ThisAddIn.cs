@@ -76,10 +76,10 @@ namespace WordAddIn1
             //SectionHelpers.CombineSectionsComplex(1, Application.ActiveDocument);
         }
 
-        public void ShowSectionsTaskPane()
+        public void ShowCombineSectionsTaskPane()
         {
             if (_taskPane == null)
-                CreateCustomTaskpane();
+                CreateCombineSectionsTaskpane();
 
             if (_taskPane == null)
                 throw new Exception("couldn't create a Custom Task Pane");
@@ -88,7 +88,7 @@ namespace WordAddIn1
 
         }
 
-        private void CreateCustomTaskpane()
+        private void CreateCombineSectionsTaskpane()
         {
             var wpfHost = new TaskPaneWpfControlHost();
             var wpfControl = new CombineSectionsControl();
@@ -96,7 +96,7 @@ namespace WordAddIn1
             vm.AssociatedDocument = Application.ActiveDocument;
             wpfControl.DataContext = vm;
             wpfHost.WpfElementHost.HostContainer.Children.Add(wpfControl);
-            _taskPane = this.CustomTaskPanes.Add(wpfHost, "Sections Task Pane");
+            _taskPane = this.CustomTaskPanes.Add(wpfHost, "Combine Sections Task Pane");
             _taskPane.Visible = false;
 
            vm.CloseWindow += VmOnCloseWindow;
@@ -117,6 +117,31 @@ namespace WordAddIn1
 
             SectionHelpers.DeleteSection(selectionIndex, Application.ActiveDocument);
 
+        }
+
+        public void ShowRelocateSectionTaskPane()
+        {
+            if (_taskPane == null)
+                CreateRelocateSectionTaskpane();
+
+            if (_taskPane == null)
+                throw new Exception("couldn't create a Custom Task Pane");
+
+            _taskPane.Visible = !_taskPane.Visible;
+        }
+
+        private void CreateRelocateSectionTaskpane()
+        {
+            var wpfHost = new TaskPaneWpfControlHost();
+            var wpfControl = new RelocateSectionControl();
+            ViewModels.RelocateSectionViewModel vm = new RelocateSectionViewModel();
+            vm.AssociatedDocument = Application.ActiveDocument;
+            wpfControl.DataContext = vm;
+            wpfHost.WpfElementHost.HostContainer.Children.Add(wpfControl);
+            _taskPane = this.CustomTaskPanes.Add(wpfHost, "Relocate Section Task Pane");
+            _taskPane.Visible = false;
+
+            vm.CloseWindow += VmOnCloseWindow;
         }
     }
 }

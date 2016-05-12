@@ -230,6 +230,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ViewModels\RelocateSectionViewModel.cs" />
+    <Compile Include="Views\RelocateSectionControl.xaml.cs">
+      <DependentUpon>RelocateSectionControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ResourceAccess.cs" />
     <Compile Include="SectionHelpers.cs" />
     <Compile Include="ViewModels\CombineSectionsViewModel.cs" />
@@ -278,6 +282,10 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Views\RelocateSectionControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CombineSectionsControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

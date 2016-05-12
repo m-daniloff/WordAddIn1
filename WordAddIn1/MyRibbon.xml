@@ -13,7 +13,8 @@
                screentip="Table" onAction="OnRibbonButton"
                supertip="Inserts a table at the cursor location."/>
           <separator id="Sep1"/>
-          <button id="sectionTools" label="Combine sections" imageMso="_9" onAction="ShowSectionTools" getEnabled="RibbonButtonEnabled"/>
+          <button id="sectionTools" label="Combine sections" imageMso="_9" onAction="CombineSections" getEnabled="RibbonButtonEnabled"/>
+          <button id="relocateSection" label="Relocate section" imageMso="_7" onAction="RelocateSection" getEnabled="RibbonButtonEnabled"/>
           <button id ="deleteSection" label="Delete current section" imageMso="_8" onAction="DeleteSection" getDescription="RibbonButtonEnabled"/>
         </group>
       </tab>
