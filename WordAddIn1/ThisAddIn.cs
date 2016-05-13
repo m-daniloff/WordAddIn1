@@ -55,27 +55,7 @@ namespace WordAddIn1
             _myRibbon = new MyRibbon();
             return _myRibbon;
         }
-
-
-        //Sections logic
-        internal void CombineSections()
-        {
-            int count = Application.ActiveDocument.Sections.Count;
-            Word.Section s1 = Application.ActiveDocument.Sections[1];
-            Word.Section s2 = Application.ActiveDocument.Sections[2];
-
-            //SectionHelpers.CombineSectionsSimple(1, Application.ActiveDocument);
-        }
-
-        internal void CombineSectionsEx()
-        {
-            int count = Application.ActiveDocument.Sections.Count;
-            Word.Section s1 = Application.ActiveDocument.Sections[0];
-            Word.Section s2 = Application.ActiveDocument.Sections[1];
-
-            //SectionHelpers.CombineSectionsComplex(1, Application.ActiveDocument);
-        }
-
+       
         public void ShowCombineSectionsTaskPane()
         {
             if (_taskPane == null)
@@ -90,10 +70,14 @@ namespace WordAddIn1
 
         private void CreateCombineSectionsTaskpane()
         {
+            object temp = Application.ActiveWindow.Selection.Information[Word.WdInformation.wdActiveEndSectionNumber];
+            int sectionIndex = Convert.ToInt32(temp);
+
             var wpfHost = new TaskPaneWpfControlHost();
             var wpfControl = new CombineSectionsControl();
             ViewModels.CombineSectionsViewModel vm = new CombineSectionsViewModel();
             vm.AssociatedDocument = Application.ActiveDocument;
+            vm.CurrentSectionIndex = sectionIndex;
             wpfControl.DataContext = vm;
             wpfHost.WpfElementHost.HostContainer.Children.Add(wpfControl);
             _taskPane = this.CustomTaskPanes.Add(wpfHost, "Combine Sections Task Pane");
@@ -132,10 +116,14 @@ namespace WordAddIn1
 
         private void CreateRelocateSectionTaskpane()
         {
+            object temp = Application.ActiveWindow.Selection.Information[Word.WdInformation.wdActiveEndSectionNumber];
+            int sectionIndex = Convert.ToInt32(temp);
+
             var wpfHost = new TaskPaneWpfControlHost();
             var wpfControl = new RelocateSectionControl();
             ViewModels.RelocateSectionViewModel vm = new RelocateSectionViewModel();
             vm.AssociatedDocument = Application.ActiveDocument;
+            vm.CurrentSectionIndex = sectionIndex;
             wpfControl.DataContext = vm;
             wpfHost.WpfElementHost.HostContainer.Children.Add(wpfControl);
             _taskPane = this.CustomTaskPanes.Add(wpfHost, "Relocate Section Task Pane");

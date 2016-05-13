@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:WordAddIn1"
+             xmlns:wpfControl="clr-namespace:WordAddIn1.Controls"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
     <Grid Height="200" Width="300" Background="White">
@@ -22,17 +23,20 @@
                 <Label Content="Move Current Section to Become"></Label>
             </GroupBox.Header>
             <StackPanel Orientation="Vertical">
-                <RadioButton Content="_First Section of Document" IsChecked="{Binding FirstSectionSelected}" GroupName="sectionIndex">
+                <RadioButton Content="_First Section of Document" IsChecked="{Binding FirstSectionSelected}" 
+                             IsEnabled="{Binding FirstSectionEnabled}" GroupName="sectionIndex">
                 </RadioButton>
-                <RadioButton Content="_Last Section of Document" IsChecked="{Binding LastSectionSelected}" GroupName="sectionIndex">
+                <RadioButton Content="_Last Section of Document" IsChecked="{Binding LastSectionSelected}" 
+                             IsEnabled="{Binding LastSectionEnabled}" GroupName="sectionIndex">
                 </RadioButton>
 
                 <StackPanel Orientation="Horizontal">
                     <RadioButton Content="_Section No:" IsChecked="{Binding OtherSectionSelected}" GroupName="sectionIndex">
 
                     </RadioButton>
+                    <wpfControl:IntegerTextBox Margin="30, 0, 0, 0" IsEnabled="{Binding OtherSectionSelected}" Value="{Binding OtherSectionNumber}" 
+                                               Width="60"></wpfControl:IntegerTextBox>
                     
-                    <TextBox Margin="30, 0, 0, 0" IsEnabled="{Binding OtherSectionSelected}" Width="60"></TextBox>
                 </StackPanel>
                 
             </StackPanel>

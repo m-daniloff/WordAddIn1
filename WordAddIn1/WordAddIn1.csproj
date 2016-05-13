@@ -203,6 +203,8 @@
     can be found.
   -->
   <ItemGroup>
+    <Compile Include="Controls\IntegerTextBox.cs" />
+    <Compile Include="Controls\RestrictedValueTextBox.cs" />
     <Compile Include="MyRibbon.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

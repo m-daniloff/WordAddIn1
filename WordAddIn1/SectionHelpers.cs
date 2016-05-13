@@ -176,5 +176,21 @@ namespace WordAddIn1
             selection.HomeKey(Unit: unit);
             selection.Paste();
         }
+
+        public static void RelocateSectionToTheEnd(int sectionIndex, Word.Document document)
+        {
+            var section = document.Sections[sectionIndex];
+            section.Range.Select();
+            var selection = document.Application.Selection;
+            selection.Cut();
+            object unit = Word.WdUnits.wdStory;
+            selection.EndKey(Unit: unit);
+            selection.Paste();
+        }
+
+        public static void RelocateSectionToLocation(int sourceIndex, int targetIndex, Word.Document document)
+        {
+            
+        }
     }
 }

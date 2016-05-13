@@ -15,6 +15,12 @@ namespace WordAddIn1.ViewModels
     {
         private Word.Document _document;
         private Document _vstoDocument;
+
+        public RelocateSectionViewModel()
+        {
+            FirstSectionEnabled = true;
+            LastSectionEnabled = true;
+        }
         public Microsoft.Office.Interop.Word.Document AssociatedDocument
         {
             get
@@ -32,7 +38,7 @@ namespace WordAddIn1.ViewModels
                 }
             }
         }
-        private int CurrentSectionIndex { get; set; }
+        public int CurrentSectionIndex { get; set; }
 
         private bool _firstSectionSelected;
 
@@ -43,6 +49,17 @@ namespace WordAddIn1.ViewModels
             {
                 _firstSectionSelected = value;
                 OnPropertyChanged("FirstSectionSelected");
+            }
+        }
+
+        private bool _firstSectionEnabled;
+        public  bool FirstSectionEnabled
+        {
+            get {  return _firstSectionEnabled;}
+            set
+            {
+                _firstSectionEnabled = value;
+                OnPropertyChanged("FirstSectionEnabled");
             }
         }
 
@@ -58,6 +75,17 @@ namespace WordAddIn1.ViewModels
             }
         }
 
+        private bool _lastSectionEnabled;
+        public bool LastSectionEnabled
+        {
+            get { return _lastSectionEnabled; }
+            set
+            {
+                _lastSectionEnabled = value;
+                OnPropertyChanged("LastSectionEnabled");
+            }
+        }
+
         private bool _otherSectionSelected;
         public bool OtherSectionSelected
         {
@@ -66,6 +94,22 @@ namespace WordAddIn1.ViewModels
             {
                 _otherSectionSelected = value;
                 OnPropertyChanged("OtherSectionSelected");
+                if (!value)
+                {
+                    OtherSectionNumber = 0;
+                }
+            }
+        }
+
+        private int _otherSectionNumber;
+
+        public int OtherSectionNumber
+        {
+            get {  return _otherSectionNumber; }
+            set
+            {
+                _otherSectionNumber = value;
+                OnPropertyChanged("OtherSectionNumber");
             }
         }
 
@@ -81,6 +125,26 @@ namespace WordAddIn1.ViewModels
             CurrentSectionIndex = Convert.ToInt32(temp);
 
             int totalSections = AssociatedDocument.Sections.Count;
+
+            if (CurrentSectionIndex == 1)
+            {
+                FirstSectionSelected = false;
+                FirstSectionEnabled = false;
+            }
+            else
+            {
+                FirstSectionEnabled = true;
+            }
+
+            if (CurrentSectionIndex == totalSections)
+            {
+                LastSectionSelected = false;
+                LastSectionEnabled = false;
+            }
+            else
+            {
+                LastSectionEnabled = true;
+            }
         }
 
         #region Commands
@@ -102,7 +166,13 @@ namespace WordAddIn1.ViewModels
         }
         private void RelocateSection()
         {
-            SectionHelpers.RelocateSectionToTheFront(CurrentSectionIndex, AssociatedDocument);
+            if (FirstSectionSelected)
+                SectionHelpers.RelocateSectionToTheFront(CurrentSectionIndex, AssociatedDocument);
+            else if (LastSectionSelected)
+                SectionHelpers.RelocateSectionToTheEnd(CurrentSectionIndex, AssociatedDocument);
+            else 
+                SectionHelpers.RelocateSectionToLocation(CurrentSectionIndex, OtherSectionNumber, AssociatedDocument);
+
             _vstoDocument.SelectionChange -= new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
             Close();
         }
@@ -112,7 +182,15 @@ namespace WordAddIn1.ViewModels
             {
                 if (null == AssociatedDocument)
                     return false;
-                return AssociatedDocument.Sections.Count > 1;
+                if  (AssociatedDocument.Sections.Count < 2)
+                    return false;
+
+                if (!FirstSectionSelected && !LastSectionSelected && !OtherSectionSelected)
+                    return false;
+
+                if (OtherSectionSelected && (OtherSectionNumber == 0))
+                    return false;
+                return true;
             }
         }
 

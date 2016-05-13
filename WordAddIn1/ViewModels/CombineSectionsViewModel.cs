@@ -44,7 +44,7 @@ namespace WordAddIn1.ViewModels
             }
         }
 
-        private int CurrentSectionIndex { get; set; }
+        public int CurrentSectionIndex { get; set; }
 
         private bool _previousSectionSelected;
         public bool PreviousSectionSelected
