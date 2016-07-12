@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using ClientCustomization.Interfaces;
 using Office = Microsoft.Office.Core;
-
+using Word = Microsoft.Office.Interop.Word;
 // TODO:  Follow these steps to enable the Ribbon (XML) item:
 
 // 1: Copy the following code block into the ThisAddin, ThisWorkbook, or ThisDocument class.
@@ -174,9 +174,29 @@ namespace WordAddIn1
 
         public void OnRibbonButton(Office.IRibbonControl ctrl)
         {
-            System.Windows.Forms.MessageBox.Show("Core Create button is clicked " + ctrl.Id);
+            //System.Windows.Forms.MessageBox.Show("Core Create button is clicked " + ctrl.Id);
+            ChangeData();
         }
 
         #endregion
+
+        private void ChangeData()
+        {
+            Word.Document document = Globals.ThisAddIn.Application.ActiveDocument;
+
+            Office.CustomXMLParts parts = document.CustomXMLParts;
+            Office.CustomXMLPart part = parts[4];
+
+            string content = part.XML;
+
+            Office.CustomXMLNodes nodes = part.SelectNodes("//TestData/Author");
+
+            Office.CustomXMLNode node = nodes[1];
+
+            Office.CustomXMLNodes attrs = node.Attributes;
+
+            attrs[1].NodeValue = "Paul Daniloff";
+
+        }
     }
 }
