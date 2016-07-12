@@ -145,6 +145,10 @@
   -->
   <ItemGroup>
     <Reference Include="Accessibility" />
+    <Reference Include="MahApps.Metro, Version=1.2.4.0, Culture=neutral, PublicKeyToken=f4fb5a3c4d1e5b4f, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\MahApps.Metro.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Office.Interop.Word, Version=15.0.0.0, Culture=neutral, PublicKeyToken=71e9bce111e9429c">
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
@@ -171,6 +175,10 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Interactivity, Version=4.5.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\MahApps.Metro.1.2.4.0\lib\net45\System.Windows.Interactivity.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
@@ -277,10 +285,6 @@
     <ProjectReference Include="..\ClientCustomization\ClientCustomization.csproj">
       <Project>{2aa7f2de-9ca0-418e-b4e0-357ebb57f125}</Project>
       <Name>ClientCustomization</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\Esquire.Common\Esquire.Common.csproj">
-      <Project>{eb95da68-3634-48b5-9833-6fbdd1ac6ed6}</Project>
-      <Name>Esquire.Common</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

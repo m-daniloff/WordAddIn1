@@ -3,9 +3,13 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+            xmlns:Controls="http://metro.mahapps.com/winfx/xaml/controls"
              xmlns:local="clr-namespace:WordAddIn1"
              mc:Ignorable="d" 
              d:DesignHeight="300" d:DesignWidth="300">
+   
+    <Grid>
+        <Expander Header="Combine Sections">
    
     <Grid Height="400" Width="300" Background="White">
         <Grid.ColumnDefinitions>
@@ -17,7 +21,7 @@
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
-            <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
             <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
 
@@ -70,5 +74,7 @@
         </StackPanel>
         <!--<TextBlock  FontSize="42" Text="{Binding TempIndicator}" Foreground="LightBlue"/>-->
         
+    </Grid>
+        </Expander>
     </Grid>
 </UserControl>

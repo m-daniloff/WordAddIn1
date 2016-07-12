@@ -210,6 +210,7 @@ namespace WordAddIn1.ViewModels
 
         private void CombineSections()
         {
+            _vstoDocument.SelectionChange -= new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
             if (PreviousSectionSelected)
             {
                 if (UseCurrentSelected)
@@ -241,7 +242,7 @@ namespace WordAddIn1.ViewModels
                         AssociatedDocument);
                 }
             }
-            _vstoDocument.SelectionChange -= new Microsoft.Office.Tools.Word.SelectionEventHandler(ThisDocument_SelectionChange);
+            
             Close();
         }
 
